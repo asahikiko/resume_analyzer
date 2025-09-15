@@ -67,7 +67,7 @@ def main():
     )
 
     # Custom CSS for a more professional look
-    st.markdown("""
+    st.markdown('''
     <style>
         /* General styling */
         .stApp {
@@ -81,6 +81,14 @@ def main():
         /* Main content styling */
         .st-emotion-cache-1y4p8pa {
             padding-top: 2rem;
+        }
+        /* Card-like styling for resume and analysis */
+        .st-emotion-cache-1y4p8pa > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1),
+        .st-emotion-cache-1y4p8pa > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         /* Button styling */
         .stButton>button {
@@ -110,7 +118,7 @@ def main():
             color: #333333;
         }
     </style>
-    """, unsafe_allow_html=True)
+    ''', unsafe_allow_html=True)
 
     # --- Sidebar ---
     with st.sidebar:
