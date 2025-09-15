@@ -59,57 +59,121 @@ def analyze_resume_with_ai(resume_text,target_position):
     return analysis_content
 
 def main():
-    st.set_page_config(page_title="Resume Analysis", layout="wide")
+    st.set_page_config(
+        page_title="Resume Analysis Pro",
+        page_icon="🤖",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
 
-    # Custom CSS
+    # Custom CSS for a more professional look
     st.markdown("""
     <style>
+        /* General styling */
+        .stApp {
+            background-color: #f0f2f6;
+        }
+        /* Sidebar styling */
+        .st-emotion-cache-16txtl3 {
+            background-color: #ffffff;
+            border-right: 1px solid #e6e6e6;
+        }
+        /* Main content styling */
         .st-emotion-cache-1y4p8pa {
             padding-top: 2rem;
+        }
+        /* Button styling */
+        .stButton>button {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 8px;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition-duration: 0.4s;
+        }
+        .stButton>button:hover {
+            background-color: #45a049;
+        }
+        /* Text area styling */
+        .stTextArea textarea {
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+        }
+        /* Header styling */
+        h1, h2, h3 {
+            color: #333333;
         }
     </style>
     """, unsafe_allow_html=True)
 
-    st.sidebar.title("Resume Analysis Control Panel")
-    st.sidebar.markdown("---")
+    # --- Sidebar ---
+    with st.sidebar:
+        st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png", width=100)
+        st.title("Resume Analysis Pro")
+        st.markdown("---")
+        st.header("Configuration")
+        
+        target_position = st.selectbox(
+            "Target Position",
+            target_positions,
+            help="Select the job position you are applying for."
+        )
 
-    target_position = st.sidebar.selectbox(
-        "选择目标岗位",
-        target_positions
-    )
+        st.markdown("---")
+        st.header("Upload or Paste Resume")
+        
+        uploaded_file = st.file_uploader(
+            "Upload PDF, Word or TXT file",
+            type=["pdf", "docx", "txt"],
+            label_visibility="collapsed"
+        )
+        
+        resume_text_area = st.text_area(
+            "Or paste your resume text here",
+            height=250,
+            placeholder="Paste your resume content here..."
+        )
 
-    st.sidebar.markdown("---")
-    st.sidebar.header("上传或粘贴简历")
+        if st.button("Analyze Resume", use_container_width=True):
+            resume_content = get_resume_content(uploaded_file, resume_text_area)
+            if not resume_content:
+                st.error("Please upload a resume file or paste the text.")
+            else:
+                with st.spinner("Analyzing... Please wait..."):
+                    st.session_state.analysis_result = analyze_resume_with_ai(resume_content, target_position)
 
-    uploaded_file = st.sidebar.file_uploader("上传PDF、Word或TXT文档", type=["pdf", "docx", "txt"])
-    resume_text_area = st.sidebar.text_area("或在此处粘贴简历文本", height=300)
-
-    resume_content = get_resume_content(uploaded_file, resume_text_area)
+    # --- Main Content ---
+    st.title("📄 Resume Analysis Dashboard")
+    st.markdown("Welcome to the Resume Analysis Dashboard. Upload your resume and select a target position to get an AI-powered analysis.")
 
     col1, col2 = st.columns([2, 3])
 
     with col1:
-        st.header("简历内容")
+        st.header("Your Resume")
+        resume_content = get_resume_content(uploaded_file, resume_text_area)
         if resume_content:
-            st.text_area("简历内容", resume_content, height=600, disabled=True)
+            st.text_area("Resume Content", resume_content, height=600, disabled=True, label_visibility="collapsed")
         else:
-            st.info("请上传简历文件或在侧边栏粘贴简历文本。")
+            st.info("Please upload or paste your resume in the sidebar to see the content here.")
 
     with col2:
-        st.header("分析结果")
-        if 'analysis_result' not in st.session_state:
-            st.session_state.analysis_result = ""
-
-    if st.sidebar.button("开始分析"):
-        if not resume_content:
-            st.sidebar.error("请上传简历文件或粘贴简历文本")
-        else:
-            with st.spinner("正在分析中，请稍候..."):
-                st.session_state.analysis_result = analyze_resume_with_ai(resume_content, target_position)
-    
-    if st.session_state.analysis_result:
-        with col2:
+        st.header("Analysis Result")
+        if 'analysis_result' in st.session_state and st.session_state.analysis_result:
             st.markdown(st.session_state.analysis_result)
+        else:
+            st.info("The analysis result will be displayed here once the analysis is complete.")
+
+    # --- Footer ---
+    st.markdown("---")
+    st.markdown(
+        "Powered by [Streamlit](https://streamlit.io) and [OpenAI](https://openai.com)"
+    )
 
 if __name__ == "__main__":
     main()
