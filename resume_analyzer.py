@@ -67,59 +67,66 @@ def main():
     )
 
     # Custom CSS for a more professional look
-    st.markdown('''
-    <style>
-        /* General styling */
-        .stApp {
-            background-color: #f0f2f6;
-        }
-        /* Sidebar styling */
-        .st-emotion-cache-16txtl3 {
-            background-color: #ffffff;
-            border-right: 1px solid #e6e6e6;
-        }
-        /* Main content styling */
-        .st-emotion-cache-1y4p8pa {
-            padding-top: 2rem;
-        }
-        /* Card-like styling for resume and analysis */
-        .st-emotion-cache-1y4p8pa > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1),
-        .st-emotion-cache-1y4p8pa > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        /* Button styling */
-        .stButton>button {
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 8px;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            transition-duration: 0.4s;
-        }
-        .stButton>button:hover {
-            background-color: #45a049;
-        }
-        /* Text area styling */
-        .stTextArea textarea {
-            border: 1px solid #e6e6e6;
-            border-radius: 8px;
-        }
-        /* Header styling */
-        h1, h2, h3 {
-            color: #333333;
-        }
-    </style>
-    ''', unsafe_allow_html=True)
+    st.markdown("""
+        <style>
+            /* General Styles */
+            body {
+                color: #ffffff; /* White text */
+                background-color: #000000; /* Black background */
+            }
+            .stApp {
+                background-color: #000000;
+            }
+            .st-emotion-cache-6q9sum.ef3psqc4 {
+                background-color: #1a1a1a; /* Dark sidebar background */
+            }
 
+            /* Header and Footer */
+            .header, .footer {
+                background-color: #007bff;
+                color: white;
+                padding: 1rem;
+                text-align: center;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+            }
+            .header h1, .footer p {
+                margin: 0;
+            }
+
+            /* Card-like sections */
+            .card {
+                background-color: #1a1a1a; /* Dark card background */
+                border-radius: 8px;
+                padding: 2rem;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                margin-bottom: 1rem;
+            }
+
+            /* Button Styles */
+            .stButton>button {
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+                padding: 0.5rem 1rem;
+                border: none;
+                transition: background-color 0.3s;
+            }
+            .stButton>button:hover {
+                background-color: #0056b3;
+            }
+
+            /* Text Input Styles */
+            .stTextInput>div>div>input {
+                background-color: #333333; /* Dark input background */
+                color: #ffffff; /* White input text */
+                border-radius: 5px;
+                border: 1px solid #555555; /* Darker border */
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Header
     # --- Sidebar ---
     with st.sidebar:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png", width=100)
